@@ -11,7 +11,7 @@ RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
   wget https://install.fastnetmon.com/installer_arm64 -O installer; \
   fi && \
   chmod +x installer && \
-  ./installer -install_community_edition
+  ./installer -install_community_edition -stable_version
 
 LABEL org.opencontainers.image.source=https://github.com/pavel-odintsov/fastnetmon
 

@@ -29,17 +29,17 @@ jobs:
           shell: << parameters.default_shell >>
           command: wget https://deac-riga.dl.sourceforge.net/project/log4cpp/log4cpp-1.1.x%20%28new%29/log4cpp-1.1/log4cpp-1.1.4.tar.gz
       - run:
-          name: Unpack log4cpp 
+          name: Unpack log4cpp
           shell: << parameters.default_shell >>
           command: tar -xf log4cpp-1.1.4.tar.gz
-      - run: 
+      - run:
           name: Patch log4cpp to compile it on msys2
           shell: << parameters.default_shell >>
           command: sed -i '/#define int64_t __int64/d' log4cpp/include/log4cpp/config-MinGW32.h
       - run:
           name: Patch tests
           shell: << parameters.default_shell >>
-          command: sed -i 's/typedef int64_t usec_t;/#include <cstdint>\ntypedef int64_t usec_t;/' log4cpp/tests/Clock.hh 
+          command: sed -i 's/typedef int64_t usec_t;/#include <cstdint>\ntypedef int64_t usec_t;/' log4cpp/tests/Clock.hh
       - run:
           name: Configure log4cpp
           shell: << parameters.default_shell >>
@@ -107,9 +107,9 @@ jobs:
       - run:
           name: Show content of data folder and permissions for it
           command: ls -la /data
-      - run: 
+      - run:
           name: Check that we have anything in data folder on VM
-          command: ls -la /data 
+          command: ls -la /data
       - run:
           name: "Run pbuilder run Docker if we have no image in place"
           command: "sudo docker exec -it linux_priviledged_container pbuilder --create --basetgz /data/debian_base.tgz --distribution << parameters.debian_codename >>"
@@ -238,7 +238,7 @@ jobs:
         type: string
       distro_version:
         type: string
-      distro_name: 
+      distro_name:
         type: string
       s3cmd_install_command:
         type: string
@@ -262,7 +262,7 @@ jobs:
       - run: sudo docker exec linux_docker git clone https://github.com/pavel-odintsov/fastnetmon.git
       - run:
           name: install_gcc
-          no_output_timeout: 120m 
+          no_output_timeout: 120m
           command: sudo -E docker exec --env AWS_ACCESS_KEY_ID --env AWS_SECRET_ACCESS_KEY linux_docker perl fastnetmon/src/scripts/install_fastnetmon_dependencies.pl gcc_12_1_0
       - run:
           name: install_dependencies
@@ -301,7 +301,7 @@ jobs:
       - run: sudo docker exec linux_docker pip3 install s3cmd
       - run:
           name: install_gcc
-          no_output_timeout: 120m 
+          no_output_timeout: 120m
           command: sudo -E docker exec --env AWS_ACCESS_KEY_ID --env AWS_SECRET_ACCESS_KEY linux_docker perl fastnetmon/src/scripts/install_fastnetmon_dependencies.pl gcc_12_1_0
       - run:
           name: install_dependencies
@@ -322,99 +322,99 @@ workflows:
   version: 2
   all_distros:
     jobs:
-      - build_centos:
-          docker_image: almalinux:8
-          centos_version: "8"
-          name: "centos8"
-      - build_centos:
-          docker_image: almalinux:8
-          centos_version: "8"
-          name: "centos8_arm"
-          resource_class: "arm.large"
-          centos_package_architecture: "aarch64"
-      - build_centos:
-          docker_image: almalinux:9
-          centos_version: "9"
-          name: "centos9"
-      - build_centos:
-          docker_image: almalinux:9
-          centos_version: "9"
-          name: "centos9_arm"
-          resource_class: "arm.large"
-          centos_package_architecture: "aarch64"
-      - build_debian:
-          docker_image: "ubuntu:jammy"
-          distro_version: "22.04"
-          name: "ubuntu2204"
-          distro_name: "ubuntu"
-      - build_debian:
-          docker_image: "ubuntu:noble"
-          distro_version: "24.04"
-          name: "ubuntu2404"
-          distro_name: "ubuntu"
-      - build_debian:
-          docker_image: "ubuntu:jammy"
-          distro_version: "22.04"
-          name: "ubuntu2204_arm"
-          distro_name: "ubuntu"
-          resource_class: "arm.large"
-          debian_package_architecture: "arm64"
-      - build_debian:
-          docker_image: "ubuntu:noble"
-          distro_version: "24.04"
-          name: "ubuntu2404_arm"
-          distro_name: "ubuntu"
-          resource_class: "arm.large"
-          debian_package_architecture: "arm64"
-      - build_debian:
-          docker_image: "ubuntu:focal"
-          distro_version: "20.04"
-          name: "ubuntu2004"
-          distro_name: "ubuntu"
-      - build_debian:
-          docker_image: "ubuntu:focal"
-          distro_version: "20.04"
-          name: "ubuntu2004_arm"
-          distro_name: "ubuntu"
-          resource_class: "arm.large"
-          debian_package_architecture: "arm64"
-      - build_debian:
-          docker_image: "debian:bullseye"
-          distro_version: "11"
-          name: "debian11"
-          distro_name: "debian"
-      - build_debian:
-          docker_image: "debian:bullseye"
-          distro_version: "11"
-          name: "debian11_arm"
-          distro_name: "debian"
-          resource_class: "arm.large"
-          debian_package_architecture: "arm64"
-      - build_debian:
-          docker_image: "debian:bookworm"
-          distro_version: "12"
-          name: "debian12"
-          distro_name: "debian"
-      - build_debian:
-          docker_image: "debian:bookworm"
-          distro_version: "12"
-          name: "debian12_arm"
-          distro_name: "debian"
-          resource_class: "arm.large"
-          debian_package_architecture: "arm64"
+      # - build_centos:
+      #     docker_image: almalinux:8
+      #     centos_version: "8"
+      #     name: "centos8"
+      # - build_centos:
+      #     docker_image: almalinux:8
+      #     centos_version: "8"
+      #     name: "centos8_arm"
+      #     resource_class: "arm.large"
+      #     centos_package_architecture: "aarch64"
+      # - build_centos:
+      #     docker_image: almalinux:9
+      #     centos_version: "9"
+      #     name: "centos9"
+      # - build_centos:
+      #     docker_image: almalinux:9
+      #     centos_version: "9"
+      #     name: "centos9_arm"
+      #     resource_class: "arm.large"
+      #     centos_package_architecture: "aarch64"
+      # - build_debian:
+      #     docker_image: "ubuntu:jammy"
+      #     distro_version: "22.04"
+      #     name: "ubuntu2204"
+      #     distro_name: "ubuntu"
+      # - build_debian:
+      #     docker_image: "ubuntu:noble"
+      #     distro_version: "24.04"
+      #     name: "ubuntu2404"
+      #     distro_name: "ubuntu"
+      # - build_debian:
+      #     docker_image: "ubuntu:jammy"
+      #     distro_version: "22.04"
+      #     name: "ubuntu2204_arm"
+      #     distro_name: "ubuntu"
+      #     resource_class: "arm.large"
+      #     debian_package_architecture: "arm64"
+      # - build_debian:
+      #     docker_image: "ubuntu:noble"
+      #     distro_version: "24.04"
+      #     name: "ubuntu2404_arm"
+      #     distro_name: "ubuntu"
+      #     resource_class: "arm.large"
+      #     debian_package_architecture: "arm64"
+      # - build_debian:
+      #     docker_image: "ubuntu:focal"
+      #     distro_version: "20.04"
+      #     name: "ubuntu2004"
+      #     distro_name: "ubuntu"
+      # - build_debian:
+      #     docker_image: "ubuntu:focal"
+      #     distro_version: "20.04"
+      #     name: "ubuntu2004_arm"
+      #     distro_name: "ubuntu"
+      #     resource_class: "arm.large"
+      #     debian_package_architecture: "arm64"
+      # - build_debian:
+      #     docker_image: "debian:bullseye"
+      #     distro_version: "11"
+      #     name: "debian11"
+      #     distro_name: "debian"
+      # - build_debian:
+      #     docker_image: "debian:bullseye"
+      #     distro_version: "11"
+      #     name: "debian11_arm"
+      #     distro_name: "debian"
+      #     resource_class: "arm.large"
+      #     debian_package_architecture: "arm64"
+      # - build_debian:
+      #     docker_image: "debian:bookworm"
+      #     distro_version: "12"
+      #     name: "debian12"
+      #     distro_name: "debian"
+      # - build_debian:
+      #     docker_image: "debian:bookworm"
+      #     distro_version: "12"
+      #     name: "debian12_arm"
+      #     distro_name: "debian"
+      #     resource_class: "arm.large"
+      #     debian_package_architecture: "arm64"
       - build_docker:
           name: "Build Docker images"
-      - build_debian_upstream_package:
-          name: "Debian Sid Upstream Build"
-          debian_codename: "sid"
-          docker_image: "debian:bookworm"
-      # To offer great developer experience we ensure that FastNetMon can be built on latest Ubuntu LTS 
-      - build_debian_system_dependencies:
-          docker_image: "ubuntu:jammy"
-          name: "ubuntu2204_system_dependencies"
-      - build_debian_system_dependencies:
-          docker_image: "ubuntu:noble"
-          name: "ubuntu2404_system_dependencies"
+      # - build_debian_upstream_package:
+      #     name: "Debian Sid Upstream Build"
+      #     debian_codename: "sid"
+      #     docker_image: "debian:bookworm"
+      # # To offer great developer experience we ensure that FastNetMon can be built on latest Ubuntu LTS
+      # - build_debian_system_dependencies:
+      #     docker_image: "ubuntu:jammy"
+      #     name: "ubuntu2204_system_dependencies"
+      # - build_debian_system_dependencies:
+      #     docker_image: "ubuntu:noble"
+      #     name: "ubuntu2404_system_dependencies"
       # It's broken due to some changes in Sid
       #- build_debian_system_dependencies:
       #    docker_image: "debian:sid"
